@@ -1,11 +1,37 @@
 import React from "react";
 
+import { readFile, writeFile } from "../helpers/file-helpers";
+import { parseJsonFile } from "next/dist/build/load-jsconfig";
+
+const DATABASE_PATH = "/src/database.json";
+
+/*
+`readFile` takes 1 argument:
+• the path to the file:
+
+readFile('/path/to/file');
+
+`writeFile` takes 2 arguments:
+• The path to the file
+• The new contents for the file
+
+writeFile(
+  '/path/to/file',
+  '{ "hello": "world" }'
+);
+*/
+
 function Home() {
-  const date = new Date();
+  let { hits } = JSON.parse(readFile(DATABASE_PATH));
+  hits += 1;
+  console.log(hits);
+
+  writeFile(DATABASE_PATH, JSON.stringify({ hits }));
+
   return (
     <main>
-      <h1>Hello Next!</h1>
-      <footer>Rendered on {date.toLocaleString()}</footer>
+      <h1>Welcome!</h1>
+      <p>You are visitor number {hits}.</p>
     </main>
   );
 }
